@@ -98,6 +98,7 @@
   var reviewVisible = false;
 
   function renderPlan(changedService, added) {
+    invalidateReview();
     Object.keys(rowByService).forEach(function (name) {
       var row = rowByService[name];
       var on = plan.indexOf(name) !== -1;
@@ -272,14 +273,31 @@
     if (kind === "town") { return setErr(townEl, "err-town", false); }
     return true;
   }
+  /* The review panel is a snapshot of one submitted state. Any later change
+     to the plan (renderPlan above routes every toggle / remove / clear
+     through here) or to a field un-submits it: the panel closes and the
+     progress steps fall back, so a visible panel can never describe a
+     request the visitor has already changed (QA defect Q-1). */
+  function invalidateReview() {
+    if (!reviewVisible) { return; }
+    reviewVisible = false;
+    reviewPanel.hidden = true;
+    renderSteps();
+    renderSticky();
+  }
+
   [["name", nameEl], ["phone", phoneEl], ["town", townEl]].forEach(function (pair) {
     var kind = pair[0], el = pair[1];
     el.addEventListener("blur", function () { validateField(kind); });
     el.addEventListener("input", function () {
+      invalidateReview();
       if (el.getAttribute("aria-invalid") === "true") { validateField(kind); }
     });
   });
-  messageEl.addEventListener("input", function () { if (planSatisfied()) { clearPlanError(); } });
+  messageEl.addEventListener("input", function () {
+    invalidateReview();
+    if (planSatisfied()) { clearPlanError(); }
+  });
 
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
