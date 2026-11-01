@@ -91,7 +91,7 @@
         {
           "@type": "Question",
           "name": "Are estimates really free?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Asking about one service or a full season of care costs nothing — finding out what your property needs is free, and you decide after." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. One service or a full season of care — finding out what your property needs costs nothing, and you decide after." }
         },
         {
           "@type": "Question",
@@ -101,7 +101,7 @@
         {
           "@type": "Question",
           "name": "What services does V&L offer?",
-          "acceptedAnswer": { "@type": "Answer", "text": "All season services — 18 of them across four seasons: Spring — Growth Preparation; Summer — Maintenance and Monitoring; Fall — Root Recovery & Winterization; and Winter — Hardscape & Preparation. Each season's services are listed in the explorer on this page." }
+          "acceptedAnswer": { "@type": "Answer", "text": "All season services — 18 of them across four seasons: Spring — Growth Preparation; Summer — Maintenance and Monitoring; Fall — Root Recovery & Winterization; and Winter — Hardscape & Preparation. Each season's services are listed on this page." }
         },
         {
           "@type": "Question",
@@ -122,9 +122,25 @@
 <body>
 <a class="skip-link" href="#quote">Skip to the free estimate form</a>
 
-<header class="site-header">
+<header class="site-header" id="top">
   <span class="site-header-name">V&amp;L Landscape</span>
-  <a class="site-header-phone" href="tel:+18564343578">Call 856-434-3578</a>
+  <a class="site-header-phone" href="tel:+18564343578"><span class="hp-call">Call&nbsp;</span>856-434-3578</a>
+  <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="site-menu">
+    <span class="menu-bars" aria-hidden="true"><span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span></span>
+    <span class="menu-btn-word" id="menu-btn-word">Menu</span>
+  </button>
+  <noscript><style>.menu-btn{display:none}</style></noscript>
+  <nav class="site-menu" id="site-menu" aria-label="Page sections" hidden>
+    <ul>
+      <li><a href="#top">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#explorer">Build Your Plan</a></li>
+      <li><a href="#why">Why V&amp;L</a></li>
+      <li><a href="#area">Service Area</a></li>
+      <li class="site-menu-quote"><a href="#quote">Get a Free Quote</a></li>
+      <li class="site-menu-call"><a href="tel:+18564343578"><span class="call-word">Call</span> <span class="call-num">856-434-3578</span></a></li>
+    </ul>
+  </nav>
 </header>
 
 <main>
@@ -139,7 +155,7 @@
       <div class="hero-text">
         <p class="eyebrow">V&amp;L Landscape · Free Estimates</p>
         <p class="hero-promise">One company for every season.</p>
-        <h1 id="hero-heading">All-Season Lawn Care &amp; Landscape Services</h1>
+        <h1 id="hero-heading" tabindex="-1">All-Season Lawn Care &amp; Landscape Services</h1>
         <p class="hero-tagline">We offer all season services</p>
         <p class="hero-sub">Spring clean-up, summer mowing, fall leaves, winter hardscape care — V&amp;L Landscape looks after your property all year. Free estimates.</p>
         <div class="hero-actions">
@@ -154,24 +170,24 @@
         <p class="hero-text-link">or <a href="sms:+18564343578">text us at 856-434-3578</a></p>
       </div>
     </div>
-    <p class="season-strip" id="season-strip">We offer all season services — spring, summer, fall, and winter. Every service is in the explorer below.</p>
+    <p class="season-strip" id="season-strip">We offer all season services — spring, summer, fall, and winter. Every service is listed by season below.</p>
   </section>
 
   <!-- 2 · Services: season explorer + plan builder -->
   <section class="band-white" id="services" aria-labelledby="services-heading">
     <div class="wrap">
       <p class="eyebrow">Services</p>
-      <h2 id="services-heading">Every season, covered</h2>
-      <p class="section-intro">Four seasons, 18 services, one company. Explore by season and tap the services you need — they collect into your year-round plan, ready to text as one request.</p>
+      <h2 id="services-heading" tabindex="-1">Every season, covered</h2>
+      <p class="section-intro">Four seasons, 18 services, one company. Pick a season, tap the services you need, and they land in your year-round plan — ready to send as one text.</p>
       <nav class="season-links" aria-label="Jump to a season">
         <a href="#spring">Spring</a> · <a href="#summer">Summer</a> · <a href="#fall">Fall</a> · <a href="#winter">Winter</a>
       </nav>
       <noscript><style>.season-tabs,.plan-panel,#quote-form,.steps,.plan-card{display:none}</style></noscript>
 
       <div class="services-layout">
-        <div class="explorer" id="explorer">
+        <div class="explorer" id="explorer" tabindex="-1">
           <div class="explorer-head">
-            <p class="builder-hint" id="builder-hint">Tap services to build your year-round plan — we&rsquo;ll text it as one request.</p>
+            <p class="builder-hint" id="builder-hint">Tap the services you need — they build your year-round plan, ready to send as one text.</p>
             <p class="plan-count" id="plan-count" hidden><span id="plan-count-n">0</span> in your plan</p>
           </div>
 
@@ -232,7 +248,7 @@
 
           <section class="season-panel panel-winter" id="winter" role="tabpanel" aria-labelledby="tab-winter" data-panel="winter">
             <h3 class="panel-title" id="panel-heading-winter" tabindex="-1"><span class="season-dot dot-winter" aria-hidden="true"></span>Winter — Hardscape &amp; Preparation</h3>
-            <p class="season-intro">The quiet season, still covered: hardscape protected through the cold, equipment maintained, and next year&rsquo;s yard planned before spring rush.</p>
+            <p class="season-intro">The quiet season, still covered: hardscape protected through the cold, equipment maintained, and next year&rsquo;s yard planned before the spring rush.</p>
             <ul class="service-list">
               <li><button type="button" class="service-row" data-service="Hardscape Protection" data-season="winter" aria-pressed="false"><span class="row-check" aria-hidden="true">✓</span><span class="row-name">Hardscape Protection</span><span class="row-state" aria-hidden="true">Add</span></button></li>
               <li><button type="button" class="service-row" data-service="Equipment Maintenance" data-season="winter" aria-pressed="false"><span class="row-check" aria-hidden="true">✓</span><span class="row-name">Equipment Maintenance</span><span class="row-state" aria-hidden="true">Add</span></button></li>
@@ -254,10 +270,10 @@
   </section>
 
   <!-- 3 · Why V&L -->
-  <section class="band-dark" aria-labelledby="why-heading">
+  <section class="band-dark" id="why" aria-labelledby="why-heading">
     <div class="wrap">
       <p class="eyebrow eyebrow-dark">Why V&amp;L</p>
-      <h2 id="why-heading">Why V&amp;L</h2>
+      <h2 id="why-heading" tabindex="-1">Why V&amp;L</h2>
       <div class="why-points">
         <div class="why-point">
           <h3>One company, all year.</h3>
@@ -265,7 +281,7 @@
         </div>
         <div class="why-point">
           <h3>Free estimates, always.</h3>
-          <p>One service or a full season of care, finding out what your property needs costs nothing. Ask first; decide after.</p>
+          <p>One service or a full season of care — finding out what your property needs costs nothing. Ask first; decide after.</p>
         </div>
         <div class="why-point">
           <h3>One number for every season.</h3>
@@ -273,17 +289,17 @@
         </div>
         <div class="why-point">
           <h3>No account. No obligation.</h3>
-          <p>The quote form on this page doesn&rsquo;t sign you up for anything — it opens your own text app with your request written out, and nothing is sent until you tap send. Your details go to V&amp;L, about your yard, and nowhere else.</p>
+          <p>The quote form on this page doesn&rsquo;t sign you up for anything — it opens your own text app with your request written out, and nothing is sent until you tap send. Your details go only to V&amp;L, and only about your yard.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 4 · Service area -->
-  <section class="band-green" aria-labelledby="area-heading">
+  <section class="band-green" id="area" aria-labelledby="area-heading">
     <div class="wrap">
       <p class="eyebrow">Service Area</p>
-      <h2 id="area-heading">Does V&amp;L cover your property?</h2>
+      <h2 id="area-heading" tabindex="-1">Does V&amp;L cover your property?</h2>
       <p class="section-intro">Call or text <a href="tel:+18564343578">856-434-3578</a> with your town and we will confirm whether your property is in the service area. You can also ask right in the <a href="#quote">estimate form</a> below — just include your town or address.</p>
     </div>
   </section>
@@ -296,7 +312,7 @@
       <div class="faq-list">
         <div class="faq-item">
           <h3>Are estimates really free?</h3>
-          <p>Yes. Asking about one service or a full season of care costs nothing — finding out what your property needs is free, and you decide after.</p>
+          <p>Yes. One service or a full season of care — finding out what your property needs costs nothing, and you decide after.</p>
         </div>
         <div class="faq-item">
           <h3>How do I get a quote?</h3>
@@ -304,7 +320,7 @@
         </div>
         <div class="faq-item">
           <h3>What services does V&amp;L offer?</h3>
-          <p>All season services — 18 of them across four seasons: Spring — Growth Preparation; Summer — Maintenance and Monitoring; Fall — Root Recovery &amp; Winterization; and Winter — Hardscape &amp; Preparation. Each season's services are listed in the explorer on this page.</p>
+          <p>All season services — 18 of them across four seasons: Spring — Growth Preparation; Summer — Maintenance and Monitoring; Fall — Root Recovery &amp; Winterization; and Winter — Hardscape &amp; Preparation. Each season's services are listed on this page.</p>
         </div>
         <div class="faq-item">
           <h3>Does V&amp;L cover my town?</h3>
@@ -322,11 +338,11 @@
   <section class="band-cream" id="quote" aria-labelledby="quote-heading">
     <div class="wrap">
       <p class="eyebrow">Free Estimate</p>
-      <h2 id="quote-heading">Get a free estimate</h2>
+      <h2 id="quote-heading" tabindex="-1">Get a free estimate</h2>
       <ol class="how-steps">
         <li><strong>1.</strong> Tell us what your yard needs — the form below, or a call.</li>
         <li><strong>2.</strong> Your request opens in your text app, addressed to V&amp;L. Check it, edit it, tap send.</li>
-        <li><strong>3.</strong> V&amp;L confirms your town is covered and gives you a free estimate.</li>
+        <li><strong>3.</strong> V&amp;L confirms whether your town is covered and gives you a free estimate.</li>
       </ol>
       <p class="section-intro">Fill this in and tap the button — it opens your text app with the request already written, addressed to V&amp;L at 856-434-3578. Nothing is sent until you tap send in your text app. Prefer to talk? <a href="tel:+18564343578">Call 856-434-3578</a>.</p>
 
@@ -338,10 +354,10 @@
 
       <div class="plan-card" id="plan-card">
         <h3 class="plan-card-title">Your services</h3>
-        <p class="plan-empty" id="plan-empty-form">No services picked yet — choose in the explorer above, or just tell us in the message</p>
+        <p class="plan-empty" id="plan-empty-form">No services picked yet. Pick them in the seasons above, or just tell us in the message below.</p>
         <div class="plan-groups" id="plan-groups-form"></div>
-        <p class="field-error" id="err-plan" hidden>Your plan is empty — pick at least one service in the explorer above, or tell us what you need in the “Anything else?” field.</p>
-        <p class="plan-card-more"><a href="#services">Add more in the season explorer</a></p>
+        <p class="field-error" id="err-plan" hidden>Your plan is empty. Pick at least one service in the seasons above, or tell us what you need in the “Anything else?” field.</p>
+        <p class="plan-card-more"><a href="#services">Add more services by season</a></p>
       </div>
 
       <noscript><p class="noscript-note">To request a free estimate, call or text <a href="tel:+18564343578">856-434-3578</a> — the form needs JavaScript, but V&amp;L doesn&rsquo;t.</p></noscript>
@@ -353,7 +369,7 @@
         <div class="field">
           <label for="field-name">Your name</label>
           <input type="text" id="field-name" name="name" autocomplete="name" required aria-describedby="err-name">
-          <p class="field-error" id="err-name" hidden>Please add your name so we know who is asking.</p>
+          <p class="field-error" id="err-name" hidden>Please add your name, so V&amp;L knows who is asking.</p>
         </div>
 
         <div class="field">
@@ -366,7 +382,7 @@
         <div class="field">
           <label for="field-town">Town or address</label>
           <input type="text" id="field-town" name="town" autocomplete="street-address" aria-describedby="hint-town err-town">
-          <p class="field-hint" id="hint-town">V&amp;L confirms every property is in the service area — your town is how they check.</p>
+          <p class="field-hint" id="hint-town">V&amp;L checks every property against the service area — your town is how they check.</p>
           <p class="field-error" id="err-town" hidden>Please check the town or address and try again.</p>
         </div>
 

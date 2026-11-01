@@ -381,6 +381,104 @@
     } else { fallback(); }
   });
 
+  /* ---------- Header menu (disclosure nav — change order 2026-10-31) ----------
+     Behavior per UX spec §1.4–1.7: hidden-attribute closed state,
+     aria-expanded synced in the same handler, focus to the first link on
+     open, focus back to the button on Escape / toggle / outside tap,
+     focus to the target heading on selection, close on focusout of the
+     widget and when the header scrolls out of view. No focus trap, no
+     scroll lock, no role="menu" — a labelled nav with a link list. */
+  var header = document.querySelector(".site-header");
+  var menuBtn = document.getElementById("menu-btn");
+  var menuPanel = document.getElementById("site-menu");
+  var menuWord = document.getElementById("menu-btn-word");
+  var menuOpen = false;
+  var MENU_FOCUS = {
+    "#top": "hero-heading",
+    "#services": "services-heading",
+    "#explorer": "explorer",
+    "#why": "why-heading",
+    "#area": "area-heading",
+    "#quote": "quote-heading"
+  };
+
+  function openMenu() {
+    menuOpen = true;
+    menuBtn.setAttribute("aria-expanded", "true");
+    menuBtn.classList.add("is-open");
+    menuWord.textContent = "Close";
+    menuPanel.hidden = false;
+    void menuPanel.offsetWidth;
+    menuPanel.classList.add("is-open");
+    var first = menuPanel.querySelector("a");
+    if (first) { first.focus(); }
+  }
+  function closeMenu(focusMode) {
+    if (!menuOpen) { return; }
+    menuOpen = false;
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.classList.remove("is-open");
+    menuWord.textContent = "Menu";
+    /* Release before hiding: blur while the link is still rendered, so
+       focus lands on the body — hiding a focused element first lets the
+       browser's focus fixup park focus on an arbitrary neighbour. */
+    if (focusMode === "release" && menuPanel.contains(document.activeElement)) {
+      document.activeElement.blur();
+    }
+    menuPanel.classList.remove("is-open");
+    menuPanel.hidden = true;
+    if (focusMode === "button") { menuBtn.focus(); }
+  }
+  menuBtn.addEventListener("click", function () {
+    if (menuOpen) { closeMenu("button"); } else { openMenu(); }
+  });
+  document.addEventListener("keydown", function (event) {
+    if (menuOpen && event.key === "Escape") { closeMenu("button"); }
+  });
+  var outsideTapPending = false;
+  document.addEventListener("pointerdown", function (event) {
+    if (menuOpen && !header.contains(event.target)) {
+      outsideTapPending = true;
+      closeMenu("button");
+    }
+  });
+  document.addEventListener("pointerup", function () {
+    /* A trusted tap re-assigns focus after the pointerdown handler runs:
+       tapping a non-focusable spot settles focus on the body, overriding
+       the handler's focus return. Complete the §1.4 return on pointerup —
+       unless the tap landed on a real control, which keeps its focus. */
+    if (!outsideTapPending) { return; }
+    outsideTapPending = false;
+    if (!document.activeElement || document.activeElement === document.body) {
+      menuBtn.focus();
+    }
+  });
+  header.addEventListener("focusout", function (event) {
+    if (menuOpen && !header.contains(event.relatedTarget)) { closeMenu(); }
+  });
+  Array.prototype.forEach.call(menuPanel.querySelectorAll('a[href^="#"]'), function (a) {
+    a.addEventListener("click", function (event) {
+      var dest = document.querySelector(a.getAttribute("href"));
+      var targetId = MENU_FOCUS[a.getAttribute("href")];
+      if (!dest) { return; }
+      /* Drive the landing by hand: native fragment navigation would reset
+         focus to the body whenever the section itself is not focusable,
+         discarding the heading focus §1.5 requires. The page's own smooth
+         scroll + the sections' scroll-margins produce the same landing. */
+      event.preventDefault();
+      closeMenu();
+      scrollToEl(dest);
+      if (targetId) {
+        document.getElementById(targetId).focus({ preventScroll: true });
+      }
+    });
+  });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      if (menuOpen && !entries[0].isIntersecting) { closeMenu("release"); }
+    }).observe(header);
+  }
+
   /* ---------- Init ---------- */
   renderPlan();
   if (plan.length > 0) {

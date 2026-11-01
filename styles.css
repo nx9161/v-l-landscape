@@ -77,8 +77,11 @@ a { color: var(--green-700); }
 }
 .skip-link:focus { top: 0; color: var(--white); }
 
-/* Header */
+/* Header — static bar; z-45 stacking context anchors the menu panel
+   above page content and the sticky bar (40), below the skip link (50). */
 .site-header {
+  position: relative;
+  z-index: 45;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -87,7 +90,7 @@ a { color: var(--green-700); }
   background: var(--green-900);
   color: var(--white);
 }
-.site-header-name { font-weight: 700; font-size: 18px; }
+.site-header-name { font-weight: 700; font-size: 18px; white-space: nowrap; }
 .site-header-phone {
   color: var(--white);
   font-weight: 700;
@@ -96,6 +99,111 @@ a { color: var(--green-700); }
   align-items: center;
   min-height: 48px;
   padding: 8px 0;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* Header menu (change order 2026-10-31): disclosure nav, chrome only —
+   header greens + cream + sun, no season hues. Behavior per UX §1;
+   visuals per Art Director §1. */
+.menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 2px solid var(--green-700);
+  border-radius: 8px;
+  color: var(--white);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease);
+}
+.menu-btn:hover { background: var(--green-700); }
+.menu-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 20px;
+  flex: none;
+}
+.menu-bar {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--white);
+  transition: transform 150ms var(--ease), opacity 150ms var(--ease);
+}
+.menu-btn.is-open .menu-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-btn.is-open .menu-bar:nth-child(2) { opacity: 0; }
+.menu-btn.is-open .menu-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.site-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--cream);
+  border-bottom: 2px solid var(--green-100);
+  box-shadow: 0 16px 24px rgba(28, 36, 32, 0.18);
+  max-height: calc(100dvh - 128px);
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 150ms var(--ease), transform 150ms var(--ease);
+}
+.site-menu.is-open { opacity: 1; transform: translateY(0); }
+.site-menu ul { list-style: none; margin: 0; padding: 0; }
+.site-menu li + li { border-top: 1px solid var(--green-100); }
+.site-menu a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 56px;
+  padding: 12px 20px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 120ms var(--ease);
+}
+.site-menu a::after {
+  content: "›";
+  color: var(--green-700);
+  font-weight: 700;
+  flex: none;
+}
+.site-menu a:hover { background: var(--green-100); }
+.site-menu a:focus-visible { outline-offset: -3px; }
+.site-menu-quote a { color: var(--green-900); font-weight: 700; }
+.site-menu-call { padding: 12px; }
+.site-menu-call a {
+  justify-content: center;
+  background: var(--green-700);
+  border-radius: 8px;
+  color: var(--white);
+  font-weight: 700;
+}
+.site-menu-call a::after { content: none; }
+.site-menu-call a:hover { background: var(--green-900); }
+.site-menu-call .call-num { color: var(--sun-500); font-size: 20px; font-weight: 700; }
+
+/* Menu anchor landings match the page's 16px offset convention. */
+#services, #explorer, #why, #area { scroll-margin-top: 16px; }
+
+/* Small phones: wordmark + number + menu button all fit at 320px —
+   the header link keeps the number (never buried); only the word
+   "Call" retires, per the Art Director's recorded fallback. */
+@media (max-width: 480px) {
+  .site-header { gap: 8px; padding: 8px 12px; }
+  .site-header-name { font-size: 16px; }
+  .site-header-phone { font-size: 15px; }
+  .hp-call { display: none; }
+  .menu-btn { gap: 6px; padding: 8px 10px; }
 }
 
 /* Bands & layout */
@@ -621,6 +729,17 @@ h3 { font-size: 20px; }
   .why-points { grid-template-columns: 1fr 1fr; gap: 40px; }
   .faq-list { grid-template-columns: 1fr 1fr; gap: 40px; }
   .btn-submit { width: auto; min-width: 280px; }
+  /* Menu panel becomes a right-aligned card (Art Director §1.2). */
+  .site-menu {
+    left: auto;
+    right: 16px;
+    width: 360px;
+    max-width: calc(100vw - 32px);
+    border: 2px solid var(--green-100);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: calc(100dvh - 64px);
+  }
   .review-actions { flex-direction: row; flex-wrap: wrap; }
   .site-footer { padding-bottom: 64px; }
   .sticky-bar { display: none; }
@@ -651,6 +770,7 @@ h3 { font-size: 20px; }
 
 /* ≥1280px */
 @media (min-width: 1280px) {
+  .site-menu { right: 24px; }
   .wrap { padding: 0 24px; }
   .hero { padding-top: 96px; padding-bottom: 96px; }
   .hero-sub { font-size: 19px; }
