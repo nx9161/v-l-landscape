@@ -386,7 +386,8 @@
      aria-expanded synced in the same handler, focus to the first link on
      open, focus back to the button on Escape / toggle / outside tap,
      focus to the target heading on selection, close on focusout of the
-     widget and when the header scrolls out of view. No focus trap, no
+     widget (unless that focusout is an in-widget tap's own pre-click
+     blur — Q2-M1) and when the header scrolls out of view. No focus trap, no
      scroll lock, no role="menu" — a labelled nav with a link list. */
   var header = document.querySelector(".site-header");
   var menuBtn = document.getElementById("menu-btn");
@@ -436,7 +437,19 @@
     if (menuOpen && event.key === "Escape") { closeMenu("button"); }
   });
   var outsideTapPending = false;
+  var lastMenuPointerAt = 0;
   document.addEventListener("pointerdown", function (event) {
+    /* Q2-M1: remember pointerdowns that land on the widget's own links
+       or button. On iOS Safari a tap on a hook blurs the focused link
+       to the body — focusout, relatedTarget null — BEFORE the tap's
+       click dispatches, so an unguarded focusout close hides the panel
+       mid-gesture and the click retargets to the body. The timestamp
+       lets the focusout handler recognise that blur as this gesture's
+       side effect and let the gesture's own click resolve the menu. */
+    if (menuOpen && header.contains(event.target) &&
+        event.target.closest && event.target.closest("a, button")) {
+      lastMenuPointerAt = Date.now();
+    }
     if (menuOpen && !header.contains(event.target)) {
       outsideTapPending = true;
       closeMenu("button");
@@ -454,7 +467,17 @@
     }
   });
   header.addEventListener("focusout", function (event) {
-    if (menuOpen && !header.contains(event.relatedTarget)) { closeMenu(); }
+    if (!menuOpen || header.contains(event.relatedTarget)) { return; }
+    /* Pointer-caused blur (Q2-M1): the focusout trails an in-widget
+       tap whose click has not dispatched yet — suppress the close and
+       let the click run its own path (selection, dial, toggle). A
+       focus departure with no pointer gesture behind it — keyboard
+       Tab-out, a bare programmatic blur — still closes, exactly as
+       before: keyboard input fires no pointerdown, so it never falls
+       inside this window. The window is the gesture's own lifetime;
+       a stale timestamp expires on its own. */
+    if (Date.now() - lastMenuPointerAt < 500) { return; }
+    closeMenu();
   });
   Array.prototype.forEach.call(menuPanel.querySelectorAll('a[href^="#"]'), function (a) {
     a.addEventListener("click", function (event) {
