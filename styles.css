@@ -43,6 +43,10 @@ body {
 
 img { max-width: 100%; height: auto; display: block; }
 
+/* The hidden attribute always wins — author display rules (e.g. .btn's
+   inline-flex) must never resurrect a JS-hidden element (gate G-1/RW-2). */
+[hidden] { display: none !important; }
+
 a { color: var(--green-700); }
 
 :focus-visible {
@@ -103,7 +107,6 @@ section { padding: 64px 0; }
 .band-dark { background: var(--green-900); color: var(--white); }
 .band-dark h2, .band-dark h3 { color: var(--white); }
 .band-dark a { color: var(--sun-500); }
-.eyebrow-dark { color: var(--sun-500); }
 
 .eyebrow {
   margin: 0 0 8px;
@@ -113,6 +116,8 @@ section { padding: 64px 0; }
   text-transform: uppercase;
   color: var(--green-700);
 }
+/* Declared after .eyebrow so it wins the cascade at equal specificity (RW-3). */
+.eyebrow-dark { color: var(--sun-500); }
 
 h1, h2, h3 {
   color: var(--green-900);
@@ -243,9 +248,6 @@ h3 { font-size: 20px; }
   font-weight: 700;
   color: var(--green-900);
 }
-.plan-count.bump { animation: bump 180ms var(--ease); }
-@keyframes bump { from { transform: scale(1.12); } to { transform: scale(1); } }
-
 .season-tabs {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -282,15 +284,21 @@ h3 { font-size: 20px; }
   width: 40px; height: 40px;
   border-radius: 50%;
   background-image: url("assets/logo.webp");
-  background-size: 260%;
+  background-size: 400%;
   background-repeat: no-repeat;
   filter: saturate(0.7);
   transition: filter 120ms var(--ease), box-shadow 120ms var(--ease);
 }
-.thumb-spring { background-position: 100% 0%; }
-.thumb-summer { background-position: 100% 100%; }
-.thumb-fall   { background-position: 0% 100%; }
-.thumb-winter { background-position: 0% 0%; }
+/* RW-1: crops retuned inward/up in size until every quadrant is pure
+   seasonal texture — the 260% corner anchors caught the logo's rim
+   lettering ("Free Estimates" arc) and phone digits. Windows verified
+   letter-free against logo.webp (see BUILD-REPORT-AB rework section):
+   spring = blossom branches, summer = mower + lawn, fall = leaf pile,
+   winter = bare branches. */
+.thumb-spring { background-size: 500%; background-position: 91.25% 25.6%; }
+.thumb-summer { background-position: 82% 71.3%; }
+.thumb-fall   { background-size: 475%; background-position: 27.2% 76.6%; }
+.thumb-winter { background-position: 8.7% 28.7%; }
 .season-tab:hover .tab-thumb,
 .season-tab[aria-selected="true"] .tab-thumb { filter: saturate(1); }
 .season-tab[aria-selected="true"] .tab-thumb { box-shadow: 0 0 0 2px var(--marker); }
@@ -328,7 +336,7 @@ h3 { font-size: 20px; }
 .panel-summer { --marker: var(--summer); --wash: var(--summer-wash); }
 .panel-fall   { --marker: var(--fall);   --wash: var(--fall-wash); }
 .panel-winter { --marker: var(--winter); --wash: var(--winter-wash); }
-.season-panel.is-entering { animation: panel-in 180ms var(--ease); }
+.season-panel.is-entering { animation: panel-in 150ms var(--ease); }
 @keyframes panel-in {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
